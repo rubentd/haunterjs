@@ -97,61 +97,61 @@ After solving the conflicts, you must commit the changes in your repo.
 ## API Documentation
 
 ####`haunter.start(hierarchy, description)`
-Initialize components needed to run the test
+Initialize components needed to run the test  
 *Parameters*  
     `hierarchy {String}` A virtual path to organize the test  
     `description {String}` Description of the test
 ___
 
 ####`haunter.setViewport(width, height)`
-Sets viewport dimensions for the test
+Sets viewport dimensions for the test  
 *Parameters*  
     `width {Number}` Desired width of the viewport  
     `height {Number}` Desired height of the viewport
 ___
 
 ####`haunter.setUserAgent(ua)`
-Sets user agent for the test
+Sets user agent for the test  
 *Parameters*  
     `ua {String}` User Agent string
 ___
 
 ####`haunter.goToUrl(url)`
-Navigate to that url
+Navigate to that url  
 *Parameters*  
     `url {String}` Destination url
 ___
 
 ####`haunter.snap(cssSelector, annotation)`
-Take a screenshot with an annotation
+Take a screenshot with an annotation  
 *Parameters*  
-    `cssSelector {String}` CSS selector of the element to capture
+    `cssSelector {String}` CSS selector of the element to capture  
     `annotation {String}` Comment for the screnshot
 ___
 
 ####`haunter.snapExcluding(cssSelector, excludeSelector, annotation)`
-Take a screenshot excluding an element
+Take a screenshot excluding an element  
 *Parameters*  
-    `cssSelector {String}` CSS selector of the element to capture
-    `excludeSelector {String}` CSS selector of the element to exclude
+    `cssSelector {String}` CSS selector of the element to capture  
+    `excludeSelector {String}` CSS selector of the element to exclude  
     `annotation {String}` Comment for the screnshot
 ___
 
 ####`haunter.click(cssSelector)`
-Click an element
+Click an element  
 *Parameters*  
     `cssSelector {String}` CSS selector of the element to click
 ___
 
 ####`haunter.sendKeys(cssSelector, keys)`
-Type some text into an element
+Type some text into an element  
 *Parameters*  
-    `cssSelector {String}` CSS selector of the element to send keys to
+    `cssSelector {String}` CSS selector of the element to send keys to  
     `keys {String}` String of text to input in the element
 ___
 
 ####`haunter.pressEnter(cssSelector)`
-Press enter key while focused on an element
+Press enter key while focused on an element  
 *Parameters*  
     `cssSelector {String}` CSS selector of the element to focus
 ___
