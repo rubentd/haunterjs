@@ -15,7 +15,11 @@ var phantomcss = require('phantomcss'),
 haunter.config = require('./config.js');
 haunter.executingCommand = false;
 
-//Initialize haunter test
+/**
+ *  Initialize components needed to run the test
+ *  @param {String} hierarchy - A virtual path to organize the test
+ *  @param {String} description - Description of the test
+ */
 haunter.start = function(hierarchy, description){
 
 	while(haunter.executingCommand){
@@ -30,18 +34,18 @@ haunter.start = function(hierarchy, description){
 	haunter.config.phantom.onFail = function(failure) {
 		haunter.hasFailed = true;
 		haunter.failureReason = 'FAIL';
-		haunter.saveResults();
+		haunter._saveResults();
 	};
 
 	//Hanbdle completion
 	haunter.config.phantom.onComplete = function(){
-		haunter.saveResults();
+		haunter._saveResults();
 	};
 
 	casper.test.on('fail', function(){
 		haunter.hasFailed = true;
 		haunter.failureReason = 'FAIL';
-		haunter.saveResults();
+		haunter._saveResults();
 	});
 
 	//Initialize phantomcss
@@ -64,19 +68,36 @@ haunter.start = function(hierarchy, description){
 
 };
 
-haunter.setViewport = function(w, h){
-	casper.viewport( w, h );
+/**
+ *  Sets viewport dimensions for the test
+ *  @param {Number} width - Desired width of the viewport
+ *  @param {Number} height - Desired height of the viewport
+ */
+haunter.setViewport = function(width, height){
+	casper.viewport(width, height);
 }
 
+/**
+ *  Sets user agent for the test
+ *  @param {String} ua - User Agent string
+ */
 haunter.setUserAgent = function(ua){
 	casper.userAgent(ua);
 }
 
+/**
+ *  Navigate to that url
+ *  @param {String} url - Destination url
+ */
 haunter.goToUrl = function(url){
 	casper.thenOpen(url);
 }
 
-//Take a screenshot with an annotation
+/**
+ *  Take a screenshot with an annotation
+ *  @param {String} cssSelector - CSS selector of the element to capture
+ *  @param {String} annotation - Comment for the screnshot
+ */
 haunter.snap = function(cssSelector, annotation){
 
 	casper.then( function(){
@@ -84,19 +105,24 @@ haunter.snap = function(cssSelector, annotation){
 		
 		casper.waitForSelector(cssSelector, function success(){
 			phantomcss.screenshot(cssSelector, snapId);
-			haunter.addSnap(snapId, annotation, cssSelector);
+			haunter._saveSnap(snapId, annotation, cssSelector);
 			console.log(haunter.snapNumber + '- ' + annotation);
 		}, function fail(){
-			haunter.addSnap(snapId, annotation, 'Selector not found: ' + cssSelector);
-			haunter.selectorNotFound(cssSelector);
+			haunter._saveSnap(snapId, annotation, 'Selector not found: ' + cssSelector);
+			haunter._selectorNotFound(cssSelector);
 		});
 
 	});
 
 }
 
-//Save annotation on a text file
-haunter.addSnap = function(id, annotation, cssSelector){
+/**
+ *  Saves the snap files
+ *  @param {String} id - Unique identifier for the snap
+ *  @param {String} annotation - Comment for the screnshot
+ *  @param {String} cssSelector - CSS selector of the element to capture
+ */
+haunter._saveSnap = function(id, annotation, cssSelector){
 	//Delete old diff if existent
 	var toDelete = haunter.config.phantom.screenshotRoot + fs.separator + haunter.hierarchy + haunter.snapNumber + '.diff.png';
 	if(fs.isFile(toDelete)){
@@ -110,44 +136,61 @@ haunter.addSnap = function(id, annotation, cssSelector){
 	haunter.snapNumber++;
 }
 
-//Take a screenshot excluding an element
+/**
+ *  Take a screenshot excluding an element
+ *  @param {String} cssSelector - CSS selector of the element to capture
+ *  @param {String} excludeSelector - CSS selector of the element to exclude
+ *  @param {String} annotation - Comment for the screnshot
+ */
 haunter.snapExcluding = function(cssSelector, excludeSelector, annotation){
 	casper.then( function(){
 		phantomcss.screenshot(cssSelector, 0, excludeSelector, 'test1');
 	});
 }
 
-//mask casperjs click
+/**
+ *  Click an element
+ *  @param {String} cssSelector - CSS selector of the element to click
+ */
 haunter.click = function(cssSelector){
 	casper.then( function(){
 		casper.waitForSelector(cssSelector, function success(){
 			casper.click(cssSelector);
 		}, function fail(){
-			haunter.selectorNotFound(cssSelector);
+			haunter._selectorNotFound(cssSelector);
 		});
 	});
 }
 
-//mask casperjs sendKeys
+/**
+ *  Type some text into an element
+ *  @param {String} cssSelector - CSS selector of the element to send keys to
+ *  @param {String} keys - String of text to input in the element
+ */
 haunter.sendKeys = function(cssSelector, keys){
 	casper.waitForSelector(cssSelector, function success(){
 		casper.sendKeys(cssSelector, keys);
 	}, function fail(){
-		haunter.selectorNotFound(cssSelector);
+		haunter._selectorNotFound(cssSelector);
 	});
 }
 
-//press the enter key
+/**
+ *  Press enter key while focused on an element
+ *  @param {String} cssSelector - CSS selector of the element to focus
+ */
 haunter.pressEnter = function(cssSelector){
 	casper.waitForSelector(cssSelector, function success(){
 		this.sendKeys(cssSelector, casper.page.event.key.Enter , {keepFocus: true});
 	}, function fail(){
-		haunter.selectorNotFound(cssSelector);
+		haunter._selectorNotFound(cssSelector);
 	});
 }
 
-//Save results from test execution
-haunter.saveResults = function(){
+/**
+ *  Save results for the test execution into a file
+ */
+haunter._saveResults = function(){
 
 	var result = {};
 	result.description = haunter.description;
@@ -163,7 +206,9 @@ haunter.saveResults = function(){
 	fs.write(haunter.config.resultsRoot + fs.separator + result.testHierarchy + '.json', JSON.stringify(result), 'w');
 }
 
-//Compare the screenshots
+/**
+ *  Proceed to compare the screenshots and figure out if there are errors
+ */
 haunter.end = function(){
 
 	while(haunter.executingCommand){
@@ -185,14 +230,18 @@ haunter.end = function(){
 	});
 }
 
-//Actions to perform when a selector was not found
-haunter.selectorNotFound = function(cssSelector){
+/**
+ *  Actions to perform when a selector was not found
+ */
+haunter._selectorNotFound = function(cssSelector){
 	haunter.hasFailed = true;
 	haunter.failureReason = 'Selector \'' + cssSelector + '\' not found';
 	casper.test.fail('Selector not found ' + cssSelector);
 }
 
-//Execute a command syncronously
+/**
+ *  Execute a command syncronously
+ */
 haunter.exec = function(command, args){
 
 	haunter.executingCommand = true;
