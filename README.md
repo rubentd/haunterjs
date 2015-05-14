@@ -96,84 +96,71 @@ After solving the conflicts, you must commit the changes in your repo.
 <br>
 ## API Documentation
 
-**start()**  
-Initializes the test, saving a **hierarchy** or virtual path, and a **description** for the test.
-```javascript
-haunter.start(hierarchy, description)
-```
-<br>
+####`haunter.start()`
+Initialize components needed to run the test
+*Parameters*  
+    `hierarchy {String}` A virtual path to organize the test  
+    `description {String}` Description of the test
+___
 
-**setViewport()**  
-Sets up the width and height, to emulate different screen resolutions.
-```javascript
-haunter.setViewport(width, height)
-```
-<br>
+####`haunter.setViewport(width, height)`
+Sets viewport dimensions for the test
+*Parameters*  
+    `width {Number}` Desired width of the viewport  
+    `height {Number}` Desired height of the viewport
+___
 
-**setUserAgent()**  
-Sets up the user agent, to emulate different devices.
-```javascript
-haunter.setUserAgent(ua)
-```
-<br>
+####`haunter.setUserAgent(ua)`
+Sets user agent for the test
+*Parameters*  
+    `ua {String}` User Agent string
+___
 
-**goToUrl()**  
-Go to a given url. (If you don't use this method, the test will start in the default url defined in the config.js file)
-```javascript
-haunter.goToUrl(url)
-```
-<br>
+####`haunter.goToUrl(url)`
+Navigate to that url
+*Parameters*  
+    `url {String}` Destination url
+___
 
-**snap()**  
-Saves a **snap**. Which is a screenshot of the given selector, with an annotation.
-```javascript
-haunter.snap(cssSelector, annotation)
-```
-<br>
+####`haunter.snap(cssSelector, annotation)`
+Take a screenshot with an annotation
+*Parameters*  
+    `cssSelector {String}` CSS selector of the element to capture
+    `annotation {String}` Comment for the screnshot
+___
 
-**snapExcluding()**  
-Saves a **snap**, excluding a given cssSelector from the picture.
-```javascript
-haunter.snapExcluding(cssSelector, excludeSelector, annotation)
-```
-<br>
+####`haunter.snapExcluding(cssSelector, excludeSelector, annotation)`
+Take a screenshot excluding an element
+*Parameters*  
+    `cssSelector {String}` CSS selector of the element to capture
+    `excludeSelector {String}` CSS selector of the element to exclude
+    `annotation {String}` Comment for the screnshot
+___
 
-**click()**  
-Clicks the selected element, eg. a link or a button.
-```javascript
-haunter.click(cssSelector)
-```
-<br>
+####`haunter.click(cssSelector)`
+Click an element
+*Parameters*  
+    `cssSelector {String}` CSS selector of the element to click
+___
 
-**sendKeys()**  
-Sets up an string as input for a given element. Eg a test input element.
-```javascript
-haunter.sendKeys(cssSelector, keys)
-```
-<br>
+####`haunter.sendKeys(cssSelector, keys)`
+Type some text into an element
+*Parameters*  
+    `cssSelector {String}` CSS selector of the element to send keys to
+    `keys {String}` String of text to input in the element
+___
 
-**pressEnter()**  
-Press enter key in a given element.  Shortcut for:   sendKeys(cssSelector, casper.page.event.key.Enter , {keepFocus: true});
-```javascript
-haunter.pressEnter(cssSelector)
-```
-<br>
+####`haunter.pressEnter(cssSelector)`
+Press enter key while focused on an element
+*Parameters*  
+    `cssSelector {String}` CSS selector of the element to focus
+___
 
-**exec()**  
-Run a command syncronously, for example to load some data before the test
-```javascript
-haunter.exec(command, [args])
-```
-<br>
-
-**end()**  
-Finish the test and compare results.
-```javascript
-haunter.end()
-```
+####`haunter.end()`
+Proceed to compare the screenshots and figure out if there are errors
+___
 
 
-<br>
 ## Installation
 
 haunterjs is available as a node package
