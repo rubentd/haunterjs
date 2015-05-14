@@ -96,7 +96,7 @@ After solving the conflicts, you must commit the changes in your repo.
 <br>
 ## API Documentation
 
-####`haunter.start()`
+####`haunter.start(hierarchy, description)`
 Initialize components needed to run the test
 *Parameters*  
     `hierarchy {String}` A virtual path to organize the test  
