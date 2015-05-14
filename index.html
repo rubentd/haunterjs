@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>haunterjs by rubentd</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">haunterjs</h1>
+      <h2 class="project-tagline">CSS regression testing tool focused on simplicity</h2>
+      <a href="https://github.com/rubentd/haunterjs" class="btn">View on GitHub</a>
+      <a href="https://github.com/rubentd/haunterjs/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/rubentd/haunterjs/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <p><a href="http://badge.fury.io/js/haunterjs"><img src="https://badge.fury.io/js/haunterjs.svg" alt="npm version"></a> <a href="https://travis-ci.org/rubentd/haunterjs"><img src="https://travis-ci.org/rubentd/haunterjs.svg" alt="Build Status"></a></p>
+
+<h2>
+<a id="table-of-contents" class="anchor" href="#table-of-contents" aria-hidden="true"><span class="octicon octicon-link"></span></a>Table of Contents</h2>
+
+<ul>
+<li><a href="#about-haunterjs">About haunterjs</a></li>
+<li><a href="#taking-snaps">Taking snaps</a></li>
+<li><a href="#snap-viewdeving-conflicts">Snap viewer</a></li>
+<li><a href="#api-documentation">API documentation</a></li>
+<li><a href="#installation">Installation</a></li>
+</ul>
+
+<h2>
+<a id="about-haunterjs" class="anchor" href="#about-haunterjs" aria-hidden="true"><span class="octicon octicon-link"></span></a>About haunterjs</h2>
+
+<p>When you work on a big website or web application, you (and maybe a bunch of people) are constantly introducing changes in the visual components.<br>
+Sometimes this changes are intentional, as you are improving the look and feel, or adding new features, but sometimes this changes are introduced by mistake.<br>
+Imagine you are refactoring some component, for example a button, but you are not sure how this change is gonna impact the site. You would need to browse the whole site to make sure everything looks good.<br>
+With css regression tests you can automate the process, and make sure none breaks the styles across the website.
+<br>
+There are some tools like <a href="https://github.com/huddle/phantomcss">PhantomCSS</a> 
+or <a href="https://github.com/BBC-News/wraith">wraith</a> 
+which allow you to write tests to compare screenshots of your website and detect changes.</p>
+
+<p><br>
+haunterjs was built on top of <a href="https://github.com/huddle/phantomcss">PhantomCSS</a>, 
+adding some new features:</p>
+
+<ol>
+<li>Annotations for each screenshot</li>
+<li>Sense of ordered steps in the execution of the test</li>
+<li>More simplicity in the syntax for the tests</li>
+<li>A viewer to compare and choose the correct screenshots</li>
+</ol>
+
+<p>haunterjs masks some complex features of casperjs, allowing to code simple tests, with a more compact and readable syntax.</p>
+
+<p>This example test opens github.com and searches for 'bootstrap'</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> haunter <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>../haunter.js<span class="pl-pds">'</span></span>);
+haunter.<span class="pl-c1">start</span>(<span class="pl-s"><span class="pl-pds">'</span>search/bootstrap<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Search for bootstrap repo<span class="pl-pds">'</span></span>);
+haunter.goToUrl(<span class="pl-s"><span class="pl-pds">'</span>https://github.com/<span class="pl-pds">'</span></span>);
+haunter.snap(<span class="pl-s"><span class="pl-pds">'</span>.header<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Go to github.com<span class="pl-pds">'</span></span>);
+haunter.sendKeys(<span class="pl-s"><span class="pl-pds">'</span>input[type=text]<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>bootstrap<span class="pl-pds">'</span></span>);
+haunter.snap(<span class="pl-s"><span class="pl-pds">'</span>.header<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Type bootstrap on the search field<span class="pl-pds">'</span></span>);
+haunter.pressEnter(<span class="pl-s"><span class="pl-pds">'</span>input[type=text]<span class="pl-pds">'</span></span>);
+haunter.snap(<span class="pl-s"><span class="pl-pds">'</span>.sort-bar<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Press enter and view number of results<span class="pl-pds">'</span></span>);
+haunter.end();</pre></div>
+
+<p><br></p>
+
+<h2>
+<a id="taking-snaps" class="anchor" href="#taking-snaps" aria-hidden="true"><span class="octicon octicon-link"></span></a>Taking snaps</h2>
+
+<p>haunterjs is based on the concept of <strong>snaps</strong>.</p>
+
+<p>A snap is a screenshot of a given css selector and an annotation for that screenshot, describing the current action being performed. </p>
+
+<div class="highlight highlight-javascript"><pre>haunter.snap(<span class="pl-s"><span class="pl-pds">'</span>.sort-bar<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Press enter and view number of results<span class="pl-pds">'</span></span>);</pre></div>
+
+<p><br></p>
+
+<h2>
+<a id="snap-viewer" class="anchor" href="#snap-viewer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Snap viewer</h2>
+
+<p>haunterjs includes a snap viewer written in nodejs and angularjs. You can use this tool as a navigation manual, browsing the snapshots of a specific user flow. You can compare them and choose the correct one, in the event of conflict.</p>
+
+<p><br><br>
+<img src="http://rubentd.com/haunterjs/img/viewer-index.png" alt="snap viewer" title="snap viewer">
+<br><br></p>
+
+<p>haunterjs allows the test to be structured in a hierarchy or folder system, to facilitate the process of browsing/running the tests.
+For example you can separate your tests by features or modules of your website.</p>
+
+<p>This <em>virtual path</em> is setup in each test:</p>
+
+<div class="highlight highlight-javascript"><pre>haunter.<span class="pl-c1">start</span>(<span class="pl-s"><span class="pl-pds">'</span>search/bootstrap<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Search for bootstrap repo<span class="pl-pds">'</span></span>);</pre></div>
+
+<p><br></p>
+
+<h2>
+<a id="solving-conflicts" class="anchor" href="#solving-conflicts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Solving conflicts</h2>
+
+<p>When a conflict it's found, the viewer asks you which one is the correct version of that component.</p>
+
+<p><br><br>
+<img src="http://rubentd.com/haunterjs/img/conflict.gif" alt="snap viewer" title="snap viewer">
+<br><br></p>
+
+<p>So you can update the baseline screenshot, or fix possible visual inconsistencies.</p>
+
+<p><br><br>
+<img src="http://rubentd.com/haunterjs/img/choose-correct.png" alt="snap viewer" title="snap viewer">
+<br><br></p>
+
+<p>After solving the conflicts, you must commit the changes in your repo.</p>
+
+<p><br></p>
+
+<h2>
+<a id="api-documentation" class="anchor" href="#api-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>API Documentation</h2>
+
+<p><strong>start()</strong><br>
+Initializes the test, saving a <strong>hierarchy</strong> or virtual path, and a <strong>description</strong> for the test.</p>
+
+<div class="highlight highlight-javascript"><pre>haunter.<span class="pl-c1">start</span>(hierarchy, description)</pre></div>
+
+<p><br></p>
+
+<p><strong>setViewport()</strong><br>
+Sets up the width and height, to emulate different screen resolutions.</p>
+
+<div class="highlight highlight-javascript"><pre>haunter.setViewport(width, height)</pre></div>
+
+<p><br></p>
+
+<p><strong>setUserAgent()</strong><br>
+Sets up the user agent, to emulate different devices.</p>
+
+<div class="highlight highlight-javascript"><pre>haunter.setUserAgent(ua)</pre></div>
+
+<p><br></p>
+
+<p><strong>goToUrl()</strong><br>
+Go to a given url. (If you don't use this method, the test will start in the default url defined in the config.js file)</p>
+
+<div class="highlight highlight-javascript"><pre>haunter.goToUrl(url)</pre></div>
+
+<p><br></p>
+
+<p><strong>snap()</strong><br>
+Saves a <strong>snap</strong>. Which is a screenshot of the given selector, with an annotation.</p>
+
+<div class="highlight highlight-javascript"><pre>haunter.snap(cssSelector, annotation)</pre></div>
+
+<p><br></p>
+
+<p><strong>snapExcluding()</strong><br>
+Saves a <strong>snap</strong>, excluding a given cssSelector from the picture.</p>
+
+<div class="highlight highlight-javascript"><pre>haunter.snapExcluding(cssSelector, excludeSelector, annotation)</pre></div>
+
+<p><br></p>
+
+<p><strong>click()</strong><br>
+Clicks the selected element, eg. a link or a button.</p>
+
+<div class="highlight highlight-javascript"><pre>haunter.<span class="pl-c1">click</span>(cssSelector)</pre></div>
+
+<p><br></p>
+
+<p><strong>sendKeys()</strong><br>
+Sets up an string as input for a given element. Eg a test input element.</p>
+
+<div class="highlight highlight-javascript"><pre>haunter.sendKeys(cssSelector, keys)</pre></div>
+
+<p><br></p>
+
+<p><strong>pressEnter()</strong><br>
+Press enter key in a given element.  Shortcut for:   sendKeys(cssSelector, casper.page.event.key.Enter , {keepFocus: true});</p>
+
+<div class="highlight highlight-javascript"><pre>haunter.pressEnter(cssSelector)</pre></div>
+
+<p><br></p>
+
+<p><strong>exec()</strong><br>
+Run a command syncronously, for example to load some data before the test</p>
+
+<div class="highlight highlight-javascript"><pre>haunter.<span class="pl-c1">exec</span>(command, [args])</pre></div>
+
+<p><br></p>
+
+<p><strong>end()</strong><br>
+Finish the test and compare results.</p>
+
+<div class="highlight highlight-javascript"><pre>haunter.end()</pre></div>
+
+<p><br></p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>haunterjs is available as a node package</p>
+
+<pre><code>npm install haunterjs
+</code></pre>
+
+<p><br></p>
+
+<p>Start by setting up your configuration on the <em>config.js</em> file. Or just leave all the values by default.
+Make sure the <em>viewerPort</em> configured in the config.js file matches the one in <em>www/js/app.js</em></p>
+
+<p>Run the demo tests with:</p>
+
+<pre><code>casperjs test demo-tests
+</code></pre>
+
+<p>Run the snap viewer with: </p>
+
+<pre><code>node viewer.js
+</code></pre>
+
+<p>And then open http://localhost:[viewerPort] in your browser</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/rubentd/haunterjs">haunterjs</a> is maintained by <a href="https://github.com/rubentd">rubentd</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-62906708-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
+
