@@ -1,0 +1,1 @@
+{"description":"Cat listing","testId":"viewcats-body","testHierarchy":"viewcats/body","snaps":[{"screenshot":"./screenshots/viewcats/body0.png","annotation":"Make sure the three cats look ok","cssSelector":".container"}],"passed":true,"lastExecution":1431613478805}

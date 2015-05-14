@@ -1,0 +1,12 @@
+<ol class="breadcrumb">
+	<li><a href="#">results</a></li>
+	<li ng-repeat="piece in pathPieces">
+		<a href="{{piece.path}}" ng-if="(!$last)">
+			{{piece.name}}
+		</a>
+		<span ng-if="($last)">
+			{{piece.name}}
+		</span>
+	</li>
+	<li>&nbsp;</li>
+</ol>

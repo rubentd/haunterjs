@@ -1,0 +1,27 @@
+<a class="thumbnail navegable folder" href="#/browse/{{currentPath}}{{folder.name}}">
+	<div class="caption">
+		<h3>
+			<i class="glyphicon glyphicon-folder-close"></i>
+			{{folder.name}}
+		</h3>
+		<p ng-show="(folder.nTests > 0)">
+			<ng-pluralize count="{{folder.nTests}}"
+                 when="{'1': '{} test', 
+                        'other': '{} tests' }">
+			</ng-pluralize>	
+		</p>
+		<div class="status" ng-show="(folder.nTests > 0)">
+			<span class="label label-success" 
+				  ng-if="(folder.nPassedTests > 0)">
+				{{folder.nPassedTests}} OK
+			</span>
+			<span class="label label-danger" 
+				  ng-if="(folder.nFailedTests > 0)">
+				{{folder.nFailedTests}} FAILED
+			</span>
+		</div>
+		<div class="status no-results" ng-show="(folder.nTests == 0)">
+			No results available in this category
+		</div>
+	</div>
+</a>

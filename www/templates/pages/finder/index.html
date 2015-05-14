@@ -1,0 +1,23 @@
+<haunter-header></haunter-header>
+<haunter-breadcrumbs></haunter-breadcrumbs>
+
+<!--folders -->
+<div class="row" ng-show="current.folders.length > 0">
+	<div class="col-sm-4 col-md-3" ng-repeat="folder in current.folders">
+		<haunter-folder>
+	</div>
+</div>
+
+<!--tests -->
+<div class="row" ng-show="current.tests.length > 0">
+	<div class="col-sm-4 col-md-3" ng-repeat="test in current.tests">
+		<haunter-test>
+	</div>
+</div>
+
+<!-- nothing-->
+<div class="row" ng-show="(current.folders.length + current.tests.length) == 0">
+	<div class="col-md-12">
+		<p>No test results found in this category</p>
+	</div>
+</div>

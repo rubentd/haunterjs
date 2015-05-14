@@ -1,0 +1,38 @@
+{
+	"name": "haunterjs",
+	"version": "0.1.0",
+	"description": "CSS regression testing tool focused on simplicity",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/rubentd/haunterjs.git"
+	},
+	"main": "haunter.js",
+	"keywords": [
+		"css",
+		"phantomcss",
+		"haunterjs",
+		"casperjs",
+		"testing",
+		"visual regression",
+		"responsive"
+	],
+	"author": "Ruben Torres",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/rubentd/haunterjs/issues"
+	},
+	"dependencies": {
+		"phantomcss": "0.10.x",
+		"express": "4.x.x",
+		"body-parser": "1.x.x",
+		"errorhandler": "1.x.x",
+		"method-override": "2.x.x",
+		"moment": "2.x.x"
+	},
+	"devDependencies": {
+		"jasmine": "~2.3.0"
+	},
+	"scripts": {
+		"test": "jasmine"
+	}
+}

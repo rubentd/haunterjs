@@ -1,0 +1,115 @@
+<haunter-header></haunter-header>
+<haunter-breadcrumbs></haunter-breadcrumbs>
+
+
+<div class="test-details bs-callout bs-callout-info">
+	<h2>
+		{{testData.description}}
+	</h2>
+
+	<span class="label label-danger" ng-if="!testData.passed">
+		Failed
+	</span>
+
+	<span class="label label-success" ng-if="testData.passed">
+		Passed
+	</span>
+
+	<small>
+		{{testData.lastExecution}}
+	</small>
+</div>
+
+<ul class="snaps">
+	<li ng-repeat="snap in testData.snaps">
+		<haunter-snap></haunter-snap>
+	</li>
+</ul>
+
+<!-- confirmation modal -->
+<div id="confirm-modal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">
+					Are you sure this is the way this component should look?
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="thumbnail">
+					<img ng-src="{{keepScr}}" alt="{{kep}}" />
+				</div>
+				<p>
+					You will keep <b>{{keep}}</b> 
+					and delete <b>{{delete}}</b>
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">
+					Cancel
+				</button>
+				<button ng-click="confirmSnap(keep, keepScr)" type="button" 
+					class="btn btn-primary">
+					Yes, keep <b>{{keep}}</b>
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- latest snap deleted modal -->
+<div id="latest-deleted" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">
+					Latest snapshot was deleted
+				</h4>
+			</div>
+			<div class="modal-body">
+				<p>
+					You have deleted the <b>latest</b> snapshot.
+					That means now you have to fix the errors and then re-run this test.
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" 
+					data-dismiss="modal">
+					Ok
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- baseline snap updated modal -->
+<div id="baseline-updated" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">
+					The baseline snapshot was updated
+				</h4>
+			</div>
+			<div class="modal-body">
+				<p>
+					You have updated the <b>baseline</b> snapshot.
+					Now make sure to commit this updated file.
+				</p>
+				<p>
+					To revert this action reset this changes in your repo.
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" 
+					data-dismiss="modal">
+					Ok
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,83 @@
+<div class="snap" href="#">
+	<h3>
+		{{$index + 1}}. {{snap.annotation}}
+	</h3>
+
+	<div class="snap-content col-md-12">
+
+		<small class="snap-css-selector pull-right"
+			ng-class="{'label label-danger': snap.cssSelector.indexOf('Selector not found:') != -1}">
+			{{snap.cssSelector}}
+		</small>
+
+		<ul class="nav nav-pills">
+			<li role="presentation" 
+				ng-class="{active: snap.activeTab == 'latest'}"
+				ng-show="snap.latestScreenshot">
+
+				<a href ng-click="snap.activeTab = 'latest'">latest</a>
+			</li>
+			<li role="presentation" 
+				ng-class="{active: snap.activeTab == 'baseline'}"
+				ng-show="snap.baseScreenshot">
+
+				<a href ng-click="snap.activeTab = 'baseline'">baseline</a>
+			</li>
+			<li role="presentation" class="difftab"
+			ng-class="{active: snap.activeTab == 'diff'}"
+			ng-show="snap.failScreenshot">
+
+			<a href ng-click="snap.activeTab = 'diff'">diff</a>
+			</li>
+
+		</ul>
+
+		<div class="alert alert-warning" ng-if="(snap.failScreenshot != undefined)">
+			There's a conflict. 
+			Which one is the correct snapshot: 
+			<a href ng-click="showModalSnap('latest', snap.latestScreenshot)"
+				data-toggle="modal" data-target="#confirm-modal">
+				latest</a> 
+			or 
+			<a href ng-click="showModalSnap('baseline', snap.baseScreenshot)" 
+				data-toggle="modal" data-target="#confirm-modal">
+				baseline</a>
+			?
+		</div>
+
+		<div class="tab-content col-md-12 thumbnail">
+
+			<div class="tab-pane" 
+			ng-class="{active: snap.activeTab == 'latest'}" 
+			ng-if="(snap.latestScreenshot != undefined)">
+				<a ng-href="{{snap.latestScreenshot}}">
+					<img ng-src="{{snap.latestScreenshot}}" alt="Latest capture" />
+				</a>
+			</div>
+
+			<div class="tab-pane" 
+			ng-class="{active: snap.activeTab == 'baseline'}"
+			ng-if="(snap.baseScreenshot != undefined)">
+				<a ng-href="{{snap.baseScreenshot}}">
+					<img ng-src="{{snap.baseScreenshot}}" alt="Baseline" />
+				</a>
+			</div>
+
+			<div class="tab-pane" 
+			ng-class="{active: snap.activeTab == 'diff'}" 
+			ng-if="(snap.failScreenshot != undefined)">
+				<a ng-href="{{snap.failScreenshot}}">
+					<img ng-src="{{snap.failScreenshot}}" alt="Latest capture" />
+				</a>
+			</div>
+
+			<div class="alert alert-warning" 
+				ng-if="(snap.latestScreenshot == undefined)">
+				No capture found to compare with. Please re-run this test.
+			</div>
+
+		</div>
+
+	</div>
+</div>
+

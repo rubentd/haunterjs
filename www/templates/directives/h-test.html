@@ -1,0 +1,28 @@
+<a class="thumbnail navegable test" href="#/details/{{currentPath}}{{test.name}}">
+	<div class="caption">
+		<h3>
+			<i class="glyphicon glyphicon-file"></i>
+			{{test.name}}
+		</h3>
+		<p>
+			{{test.description}}
+		</p>
+		<p>
+			<ng-pluralize count="{{test.snaps.length}}"
+                 when="{'1': '{} snap', 
+                        'other': '{} snaps' }">
+			</ng-pluralize>
+		</p>
+		<div class="status">
+			<span class="time">
+				{{test.lastExecution}}
+			</span>
+			<span class="label label-success" ng-show="{{test.passed}}">
+				OK
+			</span>
+			<span class="label label-danger" ng-show="{{!test.passed}}">
+				FAILED
+			</span>
+		</div>
+	</div>
+</a>
