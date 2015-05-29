@@ -139,11 +139,10 @@ Initialize components needed to run the test
     `description {String}` Description of the test
 ___
 
-####`haunter.setViewport(width, height)`
-Sets viewport dimensions for the test  
+####`haunter.setViewports(viewports)`
+Sets viewport dimensions for the test. Setup the viewport after calling the method start()  
 *Parameters*  
-    `width {Number}` Desired width of the viewport  
-    `height {Number}` Desired height of the viewport
+    `viewports {Array}` Array of desired viewports. Each viewport has name, width and height)
 ___
 
 ####`haunter.setUserAgent(ua)`
@@ -158,19 +157,21 @@ Navigate to that url
     `url {String}` Destination url
 ___
 
-####`haunter.snap(cssSelector, annotation)`
+####`haunter.snap(cssSelector, annotation, multiple)`
 Take a screenshot with an annotation  
 *Parameters*  
     `cssSelector {String}` CSS selector of the element to capture  
     `annotation {String}` Comment for the screnshot
+    `multiple {boolean}` Take screenshot in all the viewports?
 ___
 
-####`haunter.snapExcluding(cssSelector, excludeSelector, annotation)`
+####`haunter.snapExcluding(cssSelector, excludeSelector, annotation, multiple)`
 Take a screenshot excluding an element  
 *Parameters*  
     `cssSelector {String}` CSS selector of the element to capture  
     `excludeSelector {String}` CSS selector of the element to exclude  
     `annotation {String}` Comment for the screnshot
+    `multiple {boolean}` Take screenshot in all the viewports?
 ___
 
 ####`haunter.click(cssSelector)`
