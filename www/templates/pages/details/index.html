@@ -18,6 +18,26 @@
 	<small>
 		{{testData.lastExecution}}
 	</small>
+
+	<div id="viewport-control" class="viewports-wrap">
+		
+		<label>
+			Available viewports:
+		</label>
+
+		<ul class="nav nav-pills">
+			
+			<li role="presentation" 
+				ng-class="{active: testData.viewport == $index}"
+				ng-repeat="vp in testData.viewports">
+
+				<a href ng-click="testData.viewport = $index">
+					{{vp.name}}
+				</a>
+			</li>
+
+		</ul>
+	</div>
 </div>
 
 <ul class="snaps">

@@ -13,33 +13,34 @@
 		<ul class="nav nav-pills">
 			<li role="presentation" 
 				ng-class="{active: snap.activeTab == 'latest'}"
-				ng-show="snap.latestScreenshot">
+				ng-show="snap.latestScreenshot[testData.viewport]">
 
 				<a href ng-click="snap.activeTab = 'latest'">latest</a>
 			</li>
 			<li role="presentation" 
 				ng-class="{active: snap.activeTab == 'baseline'}"
-				ng-show="snap.baseScreenshot">
+				ng-show="snap.baseScreenshot[testData.viewport]">
 
 				<a href ng-click="snap.activeTab = 'baseline'">baseline</a>
 			</li>
 			<li role="presentation" class="difftab"
 			ng-class="{active: snap.activeTab == 'diff'}"
-			ng-show="snap.failScreenshot">
+			ng-show="snap.failScreenshot[testData.viewport]">
 
 			<a href ng-click="snap.activeTab = 'diff'">diff</a>
 			</li>
 
 		</ul>
 
-		<div class="alert alert-warning" ng-if="(snap.failScreenshot != undefined)">
+		<div class="alert alert-warning" 
+			ng-if="(snap.failScreenshot[testData.viewport] != undefined)">
 			There's a conflict. 
 			Which one is the correct snapshot: 
-			<a href ng-click="showModalSnap('latest', snap.latestScreenshot)"
+			<a href ng-click="showModalSnap('latest', snap.latestScreenshot[testData.viewport])"
 				data-toggle="modal" data-target="#confirm-modal">
 				latest</a> 
 			or 
-			<a href ng-click="showModalSnap('baseline', snap.baseScreenshot)" 
+			<a href ng-click="showModalSnap('baseline', snap.baseScreenshot[testData.viewport])" 
 				data-toggle="modal" data-target="#confirm-modal">
 				baseline</a>
 			?
@@ -49,30 +50,30 @@
 
 			<div class="tab-pane" 
 			ng-class="{active: snap.activeTab == 'latest'}" 
-			ng-if="(snap.latestScreenshot != undefined)">
+			ng-if="(snap.latestScreenshot[testData.viewport] != undefined)">
 				<a ng-href="{{snap.latestScreenshot}}">
-					<img ng-src="{{snap.latestScreenshot}}" alt="Latest capture" />
+					<img ng-src="{{snap.latestScreenshot[testData.viewport]}}" alt="Latest capture" />
 				</a>
 			</div>
 
 			<div class="tab-pane" 
 			ng-class="{active: snap.activeTab == 'baseline'}"
-			ng-if="(snap.baseScreenshot != undefined)">
+			ng-if="(snap.baseScreenshot[testData.viewport] != undefined)">
 				<a ng-href="{{snap.baseScreenshot}}">
-					<img ng-src="{{snap.baseScreenshot}}" alt="Baseline" />
+					<img ng-src="{{snap.baseScreenshot[testData.viewport]}}" alt="Baseline" />
 				</a>
 			</div>
 
 			<div class="tab-pane" 
 			ng-class="{active: snap.activeTab == 'diff'}" 
 			ng-if="(snap.failScreenshot != undefined)">
-				<a ng-href="{{snap.failScreenshot}}">
-					<img ng-src="{{snap.failScreenshot}}" alt="Latest capture" />
+				<a ng-href="{{snap.failScreenshot[testData.viewport]}}">
+					<img ng-src="{{snap.failScreenshot[testData.viewport]}}" alt="Latest capture" />
 				</a>
 			</div>
 
 			<div class="alert alert-warning" 
-				ng-if="(snap.latestScreenshot == undefined)">
+				ng-if="(snap.latestScreenshot[testData.viewport] == undefined)">
 				No capture found to compare with. Please re-run this test.
 			</div>
 

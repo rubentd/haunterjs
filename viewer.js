@@ -205,37 +205,46 @@ viewer.getTestDetails = function(testPath){
 	var result = JSON.parse(resultData);
 	//Format date
 	result.lastExecution = moment(result.lastExecution).fromNow();
+	result.viewport = 0;
+
 	//Set-up screenshots
 	for(var i = 0; i < result.snaps.length; i++){
 
 		result.snaps[i].activeTab = 'latest';
+		result.snaps[i].baseScreenshot = [];
+		result.snaps[i].latestScreenshot = [];
+		result.snaps[i].failScreenshot = [];
 
-		var scr = result.snaps[i].screenshot;
-		var latest = scr.replace('.png', '.diff.png');
-		var fail = scr.replace('.png', '.fail.png');
-		
-		try{
-			if(fs.lstatSync(scr).isFile()){
-				result.snaps[i].baseScreenshot = scr;
-			}
-		}catch(ex){}
+		for(var j = 0; j < result.snaps[i].screenshots.length; j++){
 
-		try{
-			if(fs.lstatSync(latest).isFile()){
-				result.snaps[i].latestScreenshot = latest;
-			}else{
+			var scr = result.snaps[i].screenshots[j];
+			var latest = scr.replace('.png', '.diff.png');
+			var fail = scr.replace('.png', '.fail.png');
+			
+			try{
+				if(fs.lstatSync(scr).isFile()){
+					result.snaps[i].baseScreenshot[j] = scr;
+				}
+			}catch(ex){}
+
+			try{
+				if(fs.lstatSync(latest).isFile()){
+					result.snaps[i].latestScreenshot[j] = latest;
+				}else{
+					result.snaps[i].activeTab = 'baseline';
+				}
+			}catch(ex){
 				result.snaps[i].activeTab = 'baseline';
 			}
-		}catch(ex){
-			result.snaps[i].activeTab = 'baseline';
-		}
 
-		try{
-			if(fs.lstatSync(fail).isFile()){
-				result.snaps[i].failScreenshot = fail;
-				result.snaps[i].activeTab = 'diff';
-			}
-		}catch(ex){}
+			try{
+				if(fs.lstatSync(fail).isFile()){
+					result.snaps[i].failScreenshot[j] = fail;
+					result.snaps[i].activeTab = 'diff';
+				}
+			}catch(ex){}
+
+		}
 		
 	}
 	return result;

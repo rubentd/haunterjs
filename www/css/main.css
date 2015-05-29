@@ -172,6 +172,16 @@ h3{
 	cursor: pointer;
 }
 
+.viewports-wrap{
+	padding: 10px;
+	margin-top: 20px;
+	background-color: #eee;
+}
+
+.viewports-wrap label{
+	margin-bottom: 10px;
+}
+
 
 /* Bs callouts */
 .bs-callout {

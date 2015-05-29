@@ -75,7 +75,6 @@ haunter.start = function(hierarchy, description){
  *  @param {Array} viewports - Array of desired viewports {name, width, height}
  */
 haunter.setViewports = function(viewports){
-	console.log('setting up viewports');
 	haunter.viewports = viewports;
 }
 
@@ -135,7 +134,6 @@ haunter._singleScreenshot = function(cssSelector, screenshotFileName, viewport){
 
 	casper.then( function(){
 		casper.viewport( viewport.width, viewport.height );
-		console.log('taking with ' + viewport.width + ' ' + viewport.height);
 		casper.waitForSelector(cssSelector, function success(){
 			phantomcss.screenshot(cssSelector, screenshotFileName);
 		});
@@ -229,6 +227,7 @@ haunter._saveResults = function(){
 	result.snaps = haunter.snaps ? haunter.snaps.slice(0) : [];
 	result.passed = !haunter.hasFailed;
 	result.lastExecution = Date.now(); 
+	result.viewports = haunter.viewports;
 	if(!result.passed){
 		result.failureReason = haunter.failureReason;
 	}
