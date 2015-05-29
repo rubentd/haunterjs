@@ -5,7 +5,9 @@
 ## Table of Contents
 * [About haunterjs](#about-haunterjs)
 * [Taking snaps](#taking-snaps)
-* [Snap viewer](#snap-viewdeving-conflicts)
+* [Responsive sites](#responsive-sites)
+* [Snap viewer](#snap-viewer)
+* [Solving conflicts](#solving-conflicts)
 * [API documentation](#api-documentation)
 * [Installation](#installation)
 
@@ -56,6 +58,40 @@ A snap is a screenshot of a given css selector and an annotation for that screen
 ```javascript
 haunter.snap('.sort-bar', 'Press enter and view number of results');
 ```
+
+  
+<br>
+## Responsive sites
+
+haunterjs allows to configure multiple viewports, to test responsive sites in a single test.  
+This way haunterjs will take screenshots with every screen size in each snap.
+
+```javascript
+config.defaultViewports = [
+	{ 
+		name: 'small',
+		width: 320, 
+		height: 480
+	},
+	{ 
+		name: 'medium',
+		width: 768, 
+		height: 480
+	},
+	{ 
+		name: 'large',
+		width: 1024, 
+		height: 768
+	}
+];
+```
+
+If you want to take a snap of a single component, like a button, and you don't care about multiple screen sizes, call the snap method with the last parameter with false value.
+
+```javascript
+haunter.snap('.selector', 'Annotation', false);
+```
+
 
 <br>
 ## Snap viewer
@@ -154,6 +190,18 @@ ___
 Press enter key while focused on an element  
 *Parameters*  
     `cssSelector {String}` CSS selector of the element to focus
+___
+
+####`haunter.mouseover(cssSelector)`
+Place the mouse over some element  
+*Parameters*  
+    `cssSelector {String}` CSS selector of the element to mouseover
+___
+
+####`haunter.evaluate(actions)`
+Evaluate some js code on the browser
+*Parameters*  
+    `actions {function}` JavaScript code to evaluate
 ___
 
 ####`haunter.end()`
