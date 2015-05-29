@@ -2,7 +2,7 @@
  *	haunterjs
  *	Tool for simple visual regression tests, based in PhantomCSS
  * 	Ruben Torres
- *  https://github.com/darthrubens/haunterjs
+ *  https://github.com/rubentd/haunterjs
  */
 
 var phantomcss = require('phantomcss'),
@@ -14,6 +14,7 @@ var phantomcss = require('phantomcss'),
 
 haunter.config = require('./config.js');
 haunter.executingCommand = false;
+haunter.viewports = null;
 
 /**
  *  Initialize components needed to run the test
@@ -23,12 +24,11 @@ haunter.executingCommand = false;
 haunter.start = function(hierarchy, description){
 
 	while(haunter.executingCommand){
-		//Wait until command has been executed
+		casper.wait(1000);
 	}
 
 	//Initialize casper
 	casper.start(haunter.config.baseUrl);
-	casper.viewport( haunter.config.defaultViewport.width, haunter.config.defaultViewport.height );
 
 	//Handle failure
 	haunter.config.phantom.onFail = function(failure) {
@@ -66,15 +66,17 @@ haunter.start = function(hierarchy, description){
 	haunter.hasFailed = false;
 	haunter.failureReason = '';
 
+	haunter.setViewports(haunter.config.defaultViewports);
+
 };
 
 /**
- *  Sets viewport dimensions for the test
- *  @param {Number} width - Desired width of the viewport
- *  @param {Number} height - Desired height of the viewport
+ *  Sets viewport dimensions for the test. Setup the viewport after calling the method start()
+ *  @param {Array} viewports - Array of desired viewports {name, width, height}
  */
-haunter.setViewport = function(width, height){
-	casper.viewport(width, height);
+haunter.setViewports = function(viewports){
+	console.log('setting up viewports');
+	haunter.viewports = viewports;
 }
 
 /**
@@ -97,41 +99,69 @@ haunter.goToUrl = function(url){
  *  Take a screenshot with an annotation
  *  @param {String} cssSelector - CSS selector of the element to capture
  *  @param {String} annotation - Comment for the screnshot
+ *  @param {Boolean} multiple - Take screenshots in all viewports?
  */
-haunter.snap = function(cssSelector, annotation){
+haunter.snap = function(cssSelector, annotation, multiple){
 
-	casper.then( function(){
-		var snapId = haunter.hierarchy + haunter.snapNumber;
-		
-		casper.waitForSelector(cssSelector, function success(){
-			phantomcss.screenshot(cssSelector, snapId);
-			haunter._saveSnap(snapId, annotation, cssSelector);
-			console.log(haunter.snapNumber + '- ' + annotation);
-		}, function fail(){
-			haunter._saveSnap(snapId, annotation, 'Selector not found: ' + cssSelector);
-			haunter._selectorNotFound(cssSelector);
-		});
+	multiple = (typeof multiple != 'undefined') ? multiple : true;
 
-	});
+	var vp = haunter.viewports;
+	var screenshots = [],
+		snapId = haunter.hierarchy + haunter.snapNumber;
+
+	if(!multiple){
+		var screenshotFilename = snapId;
+		haunter._singleScreenshot(cssSelector, screenshotFilename, vp[0]);
+		screenshots[0] = haunter.config.phantom.screenshotRoot + fs.separator + screenshotFilename + '.png';
+	}else{
+		for(var i = 0, n = vp.length; i < n; i++){
+			var screenshotFilename = snapId + '_' + vp[i].name;
+			haunter._singleScreenshot(cssSelector, screenshotFilename, vp[i]);
+			screenshots[i] = haunter.config.phantom.screenshotRoot + fs.separator + screenshotFilename + '.png';
+		}
+	}
+	haunter._saveSnap(snapId, annotation, cssSelector, screenshots);
+	console.log(haunter.snapNumber + '- ' + annotation);
 
 }
+
+/**
+ * Takes a single screenshot
+ * @param {String} cssSelector - CSS selector of the element to capture
+ * @param {String} screenshotFileName - Filename for the screenshot
+ * @param {Object} viewport - Size of viewport for the screenshot
+ */
+haunter._singleScreenshot = function(cssSelector, screenshotFileName, viewport){
+
+	casper.then( function(){
+		casper.viewport( viewport.width, viewport.height );
+		console.log('taking with ' + viewport.width + ' ' + viewport.height);
+		casper.waitForSelector(cssSelector, function success(){
+			phantomcss.screenshot(cssSelector, screenshotFileName);
+		});
+	});
+};
 
 /**
  *  Saves the snap files
  *  @param {String} id - Unique identifier for the snap
  *  @param {String} annotation - Comment for the screnshot
  *  @param {String} cssSelector - CSS selector of the element to capture
+ *  @param {Array} screeshots - List of filenames of screenshots taken
  */
-haunter._saveSnap = function(id, annotation, cssSelector){
-	//Delete old diff if existent
-	var toDelete = haunter.config.phantom.screenshotRoot + fs.separator + haunter.hierarchy + haunter.snapNumber + '.diff.png';
-	if(fs.isFile(toDelete)){
-		fs.remove(toDelete);
+haunter._saveSnap = function(id, annotation, cssSelector, screenshots){
+	//Delete old diffs if existent
+	for(var i = 0, n = screenshots.length; i < n; i++){
+		var toDelete = haunter.config.phantom.screenshotRoot + fs.separator + screenshots[i] + '.diff.png';
+		if(fs.isFile(toDelete)){
+			fs.remove(toDelete);
+		}
 	}
-	var snap = {};
-	snap.screenshot = haunter.config.phantom.screenshotRoot + fs.separator + id + '.png';
-	snap.annotation = annotation;
-	snap.cssSelector = cssSelector;
+	var snap = {
+		screenshots: screenshots,
+		annotation: annotation,
+		cssSelector: cssSelector
+	};
 	haunter.snaps.push(snap);
 	haunter.snapNumber++;
 }
@@ -212,7 +242,7 @@ haunter._saveResults = function(){
 haunter.end = function(){
 
 	while(haunter.executingCommand){
-		//Wait until command has been executed
+		casper.wait(1000);
 	}
 
 	casper.then( function now_check_the_screenshots(){
@@ -228,6 +258,9 @@ haunter.end = function(){
 	casper.run(function(){
 		phantom.exit(phantomcss.getExitStatus());
 	});
+
+	delete haunter;
+
 }
 
 /**
@@ -266,7 +299,7 @@ haunter.exec = function(command, args){
 module.exports = {
 	config: haunter.config,
 	start: haunter.start,
-	setViewport: haunter.setViewport,
+	setViewports: haunter.setViewports,
 	setUserAgent: haunter.setUserAgent,
 	goToUrl: haunter.goToUrl,
 	snap: haunter.snap,

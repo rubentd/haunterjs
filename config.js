@@ -2,9 +2,23 @@ var config = {};
 
 //Main configuration
 config.baseUrl = './demo-app/index.html';
-config.defaultViewport = {}
-config.defaultViewport.width = 1000;
-config.defaultViewport.height = 1500;
+config.defaultViewports = [
+	{ 
+		name: 'small',
+		width: 320, 
+		height: 480
+	},
+	{ 
+		name: 'medium',
+		width: 768, 
+		height: 480
+	},
+	{ 
+		name: 'large',
+		width: 1024, 
+		height: 768
+	}
+];
 config.resultsRoot = './results';
 config.viewerPort = 8080;
 
