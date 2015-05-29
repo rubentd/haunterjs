@@ -1,6 +1,8 @@
 var haunter = require('../haunter.js');
 haunter.start('home', 'Take a look at the home page');
 haunter.snap('body', 'Make sure Hello World message is correct');
+haunter.mouseover('.btn-primary');
+haunter.snap('body', 'Hover on primary button');
 haunter.click('.dropdown-toggle');
 haunter.snap('body', 'Open dropdown menu');
 haunter.sendKeys('#search', 'How to cat');

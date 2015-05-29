@@ -236,6 +236,32 @@ haunter._saveResults = function(){
 }
 
 /**
+ * Put the mouse over some element
+ * @param  {String} cssSelector - CSS selector for the element to mouseover
+ */
+haunter.mouseover = function(cssSelector){
+
+	casper.then( function(){
+		casper.waitForSelector(cssSelector, function success(){
+			casper.mouse.move(cssSelector);
+		}, function fail(){
+			haunter.selectorNotFound(cssSelector);
+		});
+	});
+
+}
+
+/**
+ * Evaluate some js code on the browser
+ * @param  {function} actions Js code to evaluate
+ */
+haunter.evaluate = function(actions){
+	casper.then( function(){
+		casper.evaluate(actions)
+	});
+}
+
+/**
  *  Proceed to compare the screenshots and figure out if there are errors
  */
 haunter.end = function(){
@@ -300,8 +326,10 @@ module.exports = {
 	snap: haunter.snap,
 	snapExcluding: haunter.snapExcluding,
 	click: haunter.click,
+	mouseover: haunter.mouseover,
 	sendKeys: haunter.sendKeys,
 	pressEnter: haunter.pressEnter,
+	evaluate: haunter.evaluate,
 	end: haunter.end,
 	exec: haunter.exec
 };
