@@ -23,12 +23,12 @@ haunter.viewports = null;
  */
 haunter.start = function(hierarchy, description){
 
-	while(haunter.executingCommand){
-		casper.wait(1000);
-	}
-
 	//Initialize casper
 	casper.start(haunter.config.baseUrl);
+	
+	while(haunter.executingCommand){
+		//Wait until command has been executed	
+	}
 
 	//Handle failure
 	haunter.config.phantom.onFail = function(failure) {
@@ -239,10 +239,6 @@ haunter._saveResults = function(){
  *  Proceed to compare the screenshots and figure out if there are errors
  */
 haunter.end = function(){
-
-	while(haunter.executingCommand){
-		casper.wait(1000);
-	}
 
 	casper.then( function now_check_the_screenshots(){
 		// compare screenshots
