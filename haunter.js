@@ -76,7 +76,7 @@ haunter.start = function(hierarchy, description){
  */
 haunter.setViewports = function(viewports){
 	haunter.viewports = viewports;
-}
+};
 
 /**
  *  Sets user agent for the test
@@ -84,7 +84,7 @@ haunter.setViewports = function(viewports){
  */
 haunter.setUserAgent = function(ua){
 	casper.userAgent(ua);
-}
+};
 
 /**
  *  Navigate to that url
@@ -92,7 +92,7 @@ haunter.setUserAgent = function(ua){
  */
 haunter.goToUrl = function(url){
 	casper.thenOpen(url);
-}
+};
 
 /**
  *  Take a screenshot with an annotation
@@ -101,7 +101,29 @@ haunter.goToUrl = function(url){
  *  @param {Boolean} multiple - Take screenshots in all viewports?
  */
 haunter.snap = function(cssSelector, annotation, multiple){
+	haunter._snap(cssSelector, null, annotation, multiple);
+};
 
+/**
+ *  Take a screenshot excluding an element
+ *  @param {String} cssSelector - CSS selector of the element to capture
+ *  @param {String} excludeSelector - CSS selector of the element to exclude
+ *  @param {String} annotation
+ *  @param {Boolean} multiple - Take screenshots in all viewports?
+ */
+haunter.snapExcluding = function(cssSelector, excludeSelector, annotation, multiple){
+	haunter._snap(cssSelector, excludeSelector, annotation, multiple);
+};
+
+/**
+ * Save snaps with or without excluding an area
+ * @param  {[type]} cssSelector     - CSS selector of the element to capture
+ * @param  {[type]} excludeSelector - CSS selector of the element to exclude
+ * @param  {[type]} annotation      - Comment for the screnshot
+ * @param  {[type]} multiple        - Take screenshots in all viewports?
+ */
+haunter._snap = function(cssSelector, excludeSelector, annotation, multiple){
+	
 	multiple = (typeof multiple != 'undefined') ? multiple : true;
 
 	var vp = haunter.viewports;
@@ -110,32 +132,37 @@ haunter.snap = function(cssSelector, annotation, multiple){
 
 	if(!multiple){
 		var screenshotFilename = snapId;
-		haunter._singleScreenshot(cssSelector, screenshotFilename, vp[0]);
+		haunter._singleScreenshot(cssSelector, excludeSelector, screenshotFilename, vp[0]);
 		screenshots[0] = haunter.config.phantom.screenshotRoot + fs.separator + screenshotFilename + '.png';
 	}else{
 		for(var i = 0, n = vp.length; i < n; i++){
 			var screenshotFilename = snapId + '_' + vp[i].name;
-			haunter._singleScreenshot(cssSelector, screenshotFilename, vp[i]);
+			haunter._singleScreenshot(cssSelector, excludeSelector, screenshotFilename, vp[i]);
 			screenshots[i] = haunter.config.phantom.screenshotRoot + fs.separator + screenshotFilename + '.png';
 		}
 	}
 	haunter._saveSnap(snapId, annotation, cssSelector, screenshots);
 	console.log(haunter.snapNumber + '- ' + annotation);
-
-}
+};
 
 /**
  * Takes a single screenshot
  * @param {String} cssSelector - CSS selector of the element to capture
+ * @param {String} excludeSelector - CSS selector of the element to exclude
  * @param {String} screenshotFileName - Filename for the screenshot
  * @param {Object} viewport - Size of viewport for the screenshot
  */
-haunter._singleScreenshot = function(cssSelector, screenshotFileName, viewport){
+haunter._singleScreenshot = function(cssSelector, excludeSelector, screenshotFileName, viewport){
 
 	casper.then( function(){
 		casper.viewport( viewport.width, viewport.height );
 		casper.waitForSelector(cssSelector, function success(){
-			phantomcss.screenshot(cssSelector, screenshotFileName);
+
+			if(excludeSelector){
+				phantomcss.screenshot(cssSelector, 0, excludeSelector, screenshotFileName);
+			}else{
+				phantomcss.screenshot(cssSelector, screenshotFileName);
+			}
 		});
 	});
 };
@@ -162,19 +189,7 @@ haunter._saveSnap = function(id, annotation, cssSelector, screenshots){
 	};
 	haunter.snaps.push(snap);
 	haunter.snapNumber++;
-}
-
-/**
- *  Take a screenshot excluding an element
- *  @param {String} cssSelector - CSS selector of the element to capture
- *  @param {String} excludeSelector - CSS selector of the element to exclude
- *  @param {String} annotation - Comment for the screnshot
- */
-haunter.snapExcluding = function(cssSelector, excludeSelector, annotation){
-	casper.then( function(){
-		phantomcss.screenshot(cssSelector, 0, excludeSelector, 'test1');
-	});
-}
+};
 
 /**
  *  Click an element
@@ -188,7 +203,7 @@ haunter.click = function(cssSelector){
 			haunter._selectorNotFound(cssSelector);
 		});
 	});
-}
+};
 
 /**
  *  Type some text into an element
@@ -201,7 +216,7 @@ haunter.sendKeys = function(cssSelector, keys){
 	}, function fail(){
 		haunter._selectorNotFound(cssSelector);
 	});
-}
+};
 
 /**
  *  Press enter key while focused on an element
@@ -213,7 +228,7 @@ haunter.pressEnter = function(cssSelector){
 	}, function fail(){
 		haunter._selectorNotFound(cssSelector);
 	});
-}
+};
 
 /**
  *  Save results for the test execution into a file
@@ -233,10 +248,10 @@ haunter._saveResults = function(){
 	}
 
 	fs.write(haunter.config.resultsRoot + fs.separator + result.testHierarchy + '.json', JSON.stringify(result), 'w');
-}
+};
 
 /**
- * Put the mouse over some element
+ * Place the mouse over some element
  * @param  {String} cssSelector - CSS selector for the element to mouseover
  */
 haunter.mouseover = function(cssSelector){
@@ -249,17 +264,17 @@ haunter.mouseover = function(cssSelector){
 		});
 	});
 
-}
+};
 
 /**
  * Evaluate some js code on the browser
- * @param  {function} actions Js code to evaluate
+ * @param  {function} actions - JavaScript code to evaluate
  */
 haunter.evaluate = function(actions){
 	casper.then( function(){
 		casper.evaluate(actions)
 	});
-}
+};
 
 /**
  *  Proceed to compare the screenshots and figure out if there are errors
