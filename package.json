@@ -1,6 +1,6 @@
 {
 	"name": "haunterjs",
-	"version": "0.1.7",
+	"version": "0.2.0",
 	"description": "CSS regression testing tool focused on simplicity",
 	"repository": {
 		"type": "git",
