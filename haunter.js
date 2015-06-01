@@ -219,6 +219,17 @@ haunter.sendKeys = function(cssSelector, keys){
 };
 
 /**
+ * Upload a file to the browser
+ * @param  {String} cssSelector - CSS selector for the file input
+ * @param  {String} filePath - Path to the file to upload
+ */
+haunter.uploadFile = function(cssSelector, filePath){
+	casper.then(function(){
+		casper.page.uploadFile(cssSelector, filePath);
+	});
+}
+
+/**
  *  Press enter key while focused on an element
  *  @param {String} cssSelector - CSS selector of the element to focus
  */
@@ -260,7 +271,7 @@ haunter.mouseover = function(cssSelector){
 		casper.waitForSelector(cssSelector, function success(){
 			casper.mouse.move(cssSelector);
 		}, function fail(){
-			haunter.selectorNotFound(cssSelector);
+			haunter._selectorNotFound(cssSelector);
 		});
 	});
 
@@ -275,6 +286,16 @@ haunter.evaluate = function(actions){
 		casper.evaluate(actions)
 	});
 };
+
+/**
+ * Masks casperjs wait
+ * @param  {Number} miliseconds - Time in miliseconds to wait
+ */
+haunter.wait = function(miliseconds){
+	casper.then( function(){
+		casper.wait(miliseconds);
+	});
+}
 
 /**
  *  Proceed to compare the screenshots and figure out if there are errors
@@ -292,7 +313,7 @@ haunter.end = function(){
 
 	// Casper runs tests 
 	casper.run(function(){
-		phantom.exit(phantomcss.getExitStatus());
+		setTimeout(phantom.exit(phantomcss.getExitStatus()), 100);
 	});
 
 	delete haunter;
@@ -344,7 +365,9 @@ module.exports = {
 	mouseover: haunter.mouseover,
 	sendKeys: haunter.sendKeys,
 	pressEnter: haunter.pressEnter,
+	uploadFile: haunter.uploadFile,
 	evaluate: haunter.evaluate,
 	end: haunter.end,
-	exec: haunter.exec
+	exec: haunter.exec,
+	wait: haunter.wait
 };
