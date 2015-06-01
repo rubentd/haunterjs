@@ -200,10 +200,24 @@ Place the mouse over some element
     `cssSelector {String}` CSS selector of the element to mouseover
 ___
 
-####`haunter.evaluate(actions)`
+####`haunter.uploadFile(cssSelector, filePath)`
+Upload a file to the browser  
+*Parameters*  
+    `cssSelector {String}` CSS selector for the file input
+    `filePath {String}` Path to the file to upload
+___
+
+####`haunter.evaluate(actions, params)`
 Evaluate some js code on the browser
 *Parameters*  
     `actions {function}` JavaScript code to evaluate
+    `params {Object}` Params for the js evaluation
+___
+
+####`haunter.wait()`
+Wait some time in ms. Masks casperjs wait
+*Parameters*  
+    `miliseconds {Number}` Time in miliseconds to wait
 ___
 
 ####`haunter.end()`
