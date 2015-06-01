@@ -237,7 +237,7 @@ And then open http://localhost:[viewerPort] in your browser
 
 ## Best practices
 
-# Organize tests  
+### Organize tests  
 Using a tidy hierarchization, you can sort them by features, or modules within your webapp.
 
 Also take a look at [PhantomCSS best practices](https://github.com/Huddle/PhantomCSS#best-practices)   
