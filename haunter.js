@@ -33,7 +33,9 @@ haunter.start = function(hierarchy, description){
 	//Handle failure
 	haunter.config.phantom.onFail = function(failure) {
 		haunter.hasFailed = true;
-		haunter.failureReason = 'FAIL';
+		if(!haunter.failureReason){
+			haunter.failureReason = 'Test execution failed';
+		}
 		haunter._saveResults();
 	};
 
@@ -44,7 +46,9 @@ haunter.start = function(hierarchy, description){
 
 	casper.test.on('fail', function(){
 		haunter.hasFailed = true;
-		haunter.failureReason = 'FAIL';
+		if(!haunter.failureReason){
+			haunter.failureReason = 'Test execution failed';
+		}
 		haunter._saveResults();
 	});
 
@@ -280,10 +284,11 @@ haunter.mouseover = function(cssSelector){
 /**
  * Evaluate some js code on the browser
  * @param  {function} actions - JavaScript code to evaluate
+ * @params {Object} params - params for the js evaluation
  */
-haunter.evaluate = function(actions){
+haunter.evaluate = function(actions, params){
 	casper.then( function(){
-		casper.evaluate(actions)
+		casper.evaluate(actions, params)
 	});
 };
 
