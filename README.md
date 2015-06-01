@@ -238,9 +238,10 @@ And then open http://localhost:[viewerPort] in your browser
 ## Best practices
 
 ### Organize tests  
-Using a tidy hierarchization, you can sort them by features, or modules within your webapp.
+Using a tidy hierarchization, you can sort them by features, or modules within your webapp.  
 
-Also take a look at [PhantomCSS best practices](https://github.com/Huddle/PhantomCSS#best-practices)   
+
+### Take a look at [PhantomCSS best practices](https://github.com/Huddle/PhantomCSS#best-practices)   
 Which I will summarize here:  
 * Try not to use complex CSS3 selectors for asserting or creating screenshots. Prefer ids.
 * Do not use these as a replacement for functional tests
