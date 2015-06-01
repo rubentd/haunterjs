@@ -61,7 +61,8 @@ haunter.start = function(hierarchy, description){
 	haunter.description = description;
 
 	//Save hierarchy
-	haunter.hierarchy = hierarchy;
+	haunter.hierarchy = hierarchy.endsWith('/') ? hierarchy.substring(0, hierarchy.length - 1) : haunter.hierarchy = hierarchy;
+
 	//Create a unique id, based on the test path
 	haunter.testId = hierarchy.replace(/\//g, '-');
 	haunter.result = {};
@@ -284,7 +285,7 @@ haunter.mouseover = function(cssSelector){
 /**
  * Evaluate some js code on the browser
  * @param  {function} actions - JavaScript code to evaluate
- * @params {Object} params - params for the js evaluation
+ * @params {Object} params - Params for the js evaluation
  */
 haunter.evaluate = function(actions, params){
 	casper.then( function(){
@@ -293,7 +294,7 @@ haunter.evaluate = function(actions, params){
 };
 
 /**
- * Masks casperjs wait
+ * Wait some time in ms. Masks casperjs wait
  * @param  {Number} miliseconds - Time in miliseconds to wait
  */
 haunter.wait = function(miliseconds){
@@ -376,3 +377,16 @@ module.exports = {
 	exec: haunter.exec,
 	wait: haunter.wait
 };
+
+/* endsWith for String */
+if (!String.prototype.endsWith) {
+  String.prototype.endsWith = function(searchString, position) {
+      var subjectString = this.toString();
+      if (position === undefined || position > subjectString.length) {
+        position = subjectString.length;
+      }
+      position -= searchString.length;
+      var lastIndex = subjectString.indexOf(searchString, position);
+      return lastIndex !== -1 && lastIndex === position;
+  };
+}
