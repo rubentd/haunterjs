@@ -19,7 +19,12 @@
     </section>
 
     <section class="main-content">
-      <p><a href="http://badge.fury.io/js/haunterjs"><img src="https://badge.fury.io/js/haunterjs.svg" alt="npm version"></a> <a href="https://travis-ci.org/rubentd/haunterjs"><img src="https://travis-ci.org/rubentd/haunterjs.svg" alt="Build Status"></a></p>
+      <p><img src="http://rubentd.com/haunterjs/img/icon.png" alt="logo" title="logo"> </p>
+
+<h1>
+<a id="haunterjs" class="anchor" href="#haunterjs" aria-hidden="true"><span class="octicon octicon-link"></span></a>haunterjs</h1>
+
+<p><a href="http://badge.fury.io/js/haunterjs"><img src="https://badge.fury.io/js/haunterjs.svg" alt="npm version"></a> <a href="https://travis-ci.org/rubentd/haunterjs"><img src="https://travis-ci.org/rubentd/haunterjs.svg" alt="Build Status"></a></p>
 
 <h2>
 <a id="table-of-contents" class="anchor" href="#table-of-contents" aria-hidden="true"><span class="octicon octicon-link"></span></a>Table of Contents</h2>
@@ -27,9 +32,12 @@
 <ul>
 <li><a href="#about-haunterjs">About haunterjs</a></li>
 <li><a href="#taking-snaps">Taking snaps</a></li>
-<li><a href="#snap-viewdeving-conflicts">Snap viewer</a></li>
+<li><a href="#responsive-sites">Responsive sites</a></li>
+<li><a href="#snap-viewer">Snap viewer</a></li>
+<li><a href="#solving-conflicts">Solving conflicts</a></li>
 <li><a href="#api-documentation">API documentation</a></li>
 <li><a href="#installation">Installation</a></li>
+<li><a href="#best-practices">Best practices</a></li>
 </ul>
 
 <h2>
@@ -83,6 +91,36 @@ haunter.end();</pre></div>
 <p><br></p>
 
 <h2>
+<a id="responsive-sites" class="anchor" href="#responsive-sites" aria-hidden="true"><span class="octicon octicon-link"></span></a>Responsive sites</h2>
+
+<p>haunterjs allows to configure multiple viewports, to test responsive sites in a single test.<br>
+This way haunterjs will take screenshots with every screen size in each snap.</p>
+
+<div class="highlight highlight-javascript"><pre>config.defaultViewports <span class="pl-k">=</span> [
+    { 
+        name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>small<span class="pl-pds">'</span></span>,
+        width<span class="pl-k">:</span> <span class="pl-c1">320</span>, 
+        height<span class="pl-k">:</span> <span class="pl-c1">480</span>
+    },
+    { 
+        name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>medium<span class="pl-pds">'</span></span>,
+        width<span class="pl-k">:</span> <span class="pl-c1">768</span>, 
+        height<span class="pl-k">:</span> <span class="pl-c1">480</span>
+    },
+    { 
+        name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>large<span class="pl-pds">'</span></span>,
+        width<span class="pl-k">:</span> <span class="pl-c1">1024</span>, 
+        height<span class="pl-k">:</span> <span class="pl-c1">768</span>
+    }
+];</pre></div>
+
+<p>If you want to take a snap of a single component, like a button, and you don't care about multiple screen sizes, call the snap method with the last parameter with false value.</p>
+
+<div class="highlight highlight-javascript"><pre>haunter.snap(<span class="pl-s"><span class="pl-pds">'</span>.selector<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Annotation<span class="pl-pds">'</span></span>, <span class="pl-c1">false</span>);</pre></div>
+
+<p><br></p>
+
+<h2>
 <a id="snap-viewer" class="anchor" href="#snap-viewer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Snap viewer</h2>
 
 <p>haunterjs includes a snap viewer written in nodejs and angularjs. You can use this tool as a navigation manual, browsing the snapshots of a specific user flow. You can compare them and choose the correct one, in the event of conflict.</p>
@@ -122,82 +160,152 @@ For example you can separate your tests by features or modules of your website.<
 <h2>
 <a id="api-documentation" class="anchor" href="#api-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>API Documentation</h2>
 
-<p><strong>start()</strong><br>
-Initializes the test, saving a <strong>hierarchy</strong> or virtual path, and a <strong>description</strong> for the test.</p>
+<h4>
+<a id="haunterstarthierarchy-description" class="anchor" href="#haunterstarthierarchy-description" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>haunter.start(hierarchy, description)</code>
+</h4>
 
-<div class="highlight highlight-javascript"><pre>haunter.<span class="pl-c1">start</span>(hierarchy, description)</pre></div>
+<p>Initialize components needed to run the test<br>
+<em>Parameters</em><br>
+    <code>hierarchy {String}</code> A virtual path to organize the test<br>
+    <code>description {String}</code> Description of the test</p>
 
-<p><br></p>
+<hr>
 
-<p><strong>setViewport()</strong><br>
-Sets up the width and height, to emulate different screen resolutions.</p>
+<h4>
+<a id="hauntersetviewportsviewports" class="anchor" href="#hauntersetviewportsviewports" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>haunter.setViewports(viewports)</code>
+</h4>
 
-<div class="highlight highlight-javascript"><pre>haunter.setViewport(width, height)</pre></div>
+<p>Sets viewport dimensions for the test. Setup the viewport after calling the method start()<br>
+<em>Parameters</em><br>
+    <code>viewports {Array}</code> Array of desired viewports. Each viewport has name, width and height)</p>
 
-<p><br></p>
+<hr>
 
-<p><strong>setUserAgent()</strong><br>
-Sets up the user agent, to emulate different devices.</p>
+<h4>
+<a id="hauntersetuseragentua" class="anchor" href="#hauntersetuseragentua" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>haunter.setUserAgent(ua)</code>
+</h4>
 
-<div class="highlight highlight-javascript"><pre>haunter.setUserAgent(ua)</pre></div>
+<p>Sets user agent for the test<br>
+<em>Parameters</em><br>
+    <code>ua {String}</code> User Agent string</p>
 
-<p><br></p>
+<hr>
 
-<p><strong>goToUrl()</strong><br>
-Go to a given url. (If you don't use this method, the test will start in the default url defined in the config.js file)</p>
+<h4>
+<a id="hauntergotourlurl" class="anchor" href="#hauntergotourlurl" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>haunter.goToUrl(url)</code>
+</h4>
 
-<div class="highlight highlight-javascript"><pre>haunter.goToUrl(url)</pre></div>
+<p>Navigate to that url<br>
+<em>Parameters</em><br>
+    <code>url {String}</code> Destination url</p>
 
-<p><br></p>
+<hr>
 
-<p><strong>snap()</strong><br>
-Saves a <strong>snap</strong>. Which is a screenshot of the given selector, with an annotation.</p>
+<h4>
+<a id="hauntersnapcssselector-annotation-multiple" class="anchor" href="#hauntersnapcssselector-annotation-multiple" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>haunter.snap(cssSelector, annotation, multiple)</code>
+</h4>
 
-<div class="highlight highlight-javascript"><pre>haunter.snap(cssSelector, annotation)</pre></div>
+<p>Take a screenshot with an annotation<br>
+<em>Parameters</em><br>
+    <code>cssSelector {String}</code> CSS selector of the element to capture<br>
+    <code>annotation {String}</code> Comment for the screnshot
+    <code>multiple {boolean}</code> Take screenshot in all the viewports?</p>
 
-<p><br></p>
+<hr>
 
-<p><strong>snapExcluding()</strong><br>
-Saves a <strong>snap</strong>, excluding a given cssSelector from the picture.</p>
+<h4>
+<a id="hauntersnapexcludingcssselector-excludeselector-annotation-multiple" class="anchor" href="#hauntersnapexcludingcssselector-excludeselector-annotation-multiple" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>haunter.snapExcluding(cssSelector, excludeSelector, annotation, multiple)</code>
+</h4>
 
-<div class="highlight highlight-javascript"><pre>haunter.snapExcluding(cssSelector, excludeSelector, annotation)</pre></div>
+<p>Take a screenshot excluding an element<br>
+<em>Parameters</em><br>
+    <code>cssSelector {String}</code> CSS selector of the element to capture<br>
+    <code>excludeSelector {String}</code> CSS selector of the element to exclude<br>
+    <code>annotation {String}</code> Comment for the screnshot
+    <code>multiple {boolean}</code> Take screenshot in all the viewports?</p>
 
-<p><br></p>
+<hr>
 
-<p><strong>click()</strong><br>
-Clicks the selected element, eg. a link or a button.</p>
+<h4>
+<a id="haunterclickcssselector" class="anchor" href="#haunterclickcssselector" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>haunter.click(cssSelector)</code>
+</h4>
 
-<div class="highlight highlight-javascript"><pre>haunter.<span class="pl-c1">click</span>(cssSelector)</pre></div>
+<p>Click an element<br>
+<em>Parameters</em><br>
+    <code>cssSelector {String}</code> CSS selector of the element to click</p>
 
-<p><br></p>
+<hr>
 
-<p><strong>sendKeys()</strong><br>
-Sets up an string as input for a given element. Eg a test input element.</p>
+<h4>
+<a id="hauntersendkeyscssselector-keys" class="anchor" href="#hauntersendkeyscssselector-keys" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>haunter.sendKeys(cssSelector, keys)</code>
+</h4>
 
-<div class="highlight highlight-javascript"><pre>haunter.sendKeys(cssSelector, keys)</pre></div>
+<p>Type some text into an element<br>
+<em>Parameters</em><br>
+    <code>cssSelector {String}</code> CSS selector of the element to send keys to<br>
+    <code>keys {String}</code> String of text to input in the element</p>
 
-<p><br></p>
+<hr>
 
-<p><strong>pressEnter()</strong><br>
-Press enter key in a given element.  Shortcut for:   sendKeys(cssSelector, casper.page.event.key.Enter , {keepFocus: true});</p>
+<h4>
+<a id="haunterpressentercssselector" class="anchor" href="#haunterpressentercssselector" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>haunter.pressEnter(cssSelector)</code>
+</h4>
 
-<div class="highlight highlight-javascript"><pre>haunter.pressEnter(cssSelector)</pre></div>
+<p>Press enter key while focused on an element<br>
+<em>Parameters</em><br>
+    <code>cssSelector {String}</code> CSS selector of the element to focus</p>
 
-<p><br></p>
+<hr>
 
-<p><strong>exec()</strong><br>
-Run a command syncronously, for example to load some data before the test</p>
+<h4>
+<a id="hauntermouseovercssselector" class="anchor" href="#hauntermouseovercssselector" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>haunter.mouseover(cssSelector)</code>
+</h4>
 
-<div class="highlight highlight-javascript"><pre>haunter.<span class="pl-c1">exec</span>(command, [args])</pre></div>
+<p>Place the mouse over some element<br>
+<em>Parameters</em><br>
+    <code>cssSelector {String}</code> CSS selector of the element to mouseover</p>
 
-<p><br></p>
+<hr>
 
-<p><strong>end()</strong><br>
-Finish the test and compare results.</p>
+<h4>
+<a id="haunteruploadfilecssselector-filepath" class="anchor" href="#haunteruploadfilecssselector-filepath" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>haunter.uploadFile(cssSelector, filePath)</code>
+</h4>
 
-<div class="highlight highlight-javascript"><pre>haunter.end()</pre></div>
+<p>Upload a file to the browser<br>
+<em>Parameters</em><br>
+    <code>cssSelector {String}</code> CSS selector for the file input
+    <code>filePath {String}</code> Path to the file to upload</p>
 
-<p><br></p>
+<hr>
+
+<h4>
+<a id="haunterevaluateactions-params" class="anchor" href="#haunterevaluateactions-params" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>haunter.evaluate(actions, params)</code>
+</h4>
+
+<p>Evaluate some js code on the browser
+<em>Parameters</em><br>
+    <code>actions {function}</code> JavaScript code to evaluate
+    <code>params {Object}</code> Params for the js evaluation</p>
+
+<hr>
+
+<h4>
+<a id="haunterwait" class="anchor" href="#haunterwait" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>haunter.wait()</code>
+</h4>
+
+<p>Wait some time in ms. Masks casperjs wait
+<em>Parameters</em><br>
+    <code>miliseconds {Number}</code> Time in miliseconds to wait</p>
+
+<hr>
+
+<h4>
+<a id="haunterend" class="anchor" href="#haunterend" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>haunter.end()</code>
+</h4>
+
+<p>Proceed to compare the screenshots and figure out if there are errors</p>
+
+<hr>
 
 <h2>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
@@ -222,7 +330,28 @@ Make sure the <em>viewerPort</em> configured in the config.js file matches the o
 <pre><code>node viewer.js
 </code></pre>
 
-<p>And then open http://localhost:[viewerPort] in your browser</p>
+<p>And then open http://localhost:[viewerPort] in your browser  </p>
+
+<h2>
+<a id="best-practices" class="anchor" href="#best-practices" aria-hidden="true"><span class="octicon octicon-link"></span></a>Best practices</h2>
+
+<h3>
+<a id="organize-tests" class="anchor" href="#organize-tests" aria-hidden="true"><span class="octicon octicon-link"></span></a>Organize tests</h3>
+
+<p>Using a tidy hierarchization, you can sort them by features, or modules within your webapp.  </p>
+
+<h3>
+<a id="take-a-look-at-phantomcss-best-practices" class="anchor" href="#take-a-look-at-phantomcss-best-practices" aria-hidden="true"><span class="octicon octicon-link"></span></a>Take a look at <a href="https://github.com/Huddle/PhantomCSS#best-practices">PhantomCSS best practices</a>
+</h3>
+
+<p>Which I will summarize here:  </p>
+
+<ul>
+<li>Try not to use complex CSS3 selectors for asserting or creating screenshots. Prefer ids.</li>
+<li>Do not use these as a replacement for functional tests</li>
+<li>Don't try to test all the visuals</li>
+<li>Full page screenshots are a bad idea</li>
+</ul>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/rubentd/haunterjs">haunterjs</a> is maintained by <a href="https://github.com/rubentd">rubentd</a>.</span>
