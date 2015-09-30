@@ -13,7 +13,8 @@ var express = require('express'),
 	hostname = process.env.HOSTNAME || 'localhost',
 	config = require('./config.js'),
 	port = require('./config.js').viewerPort,
-	publicDir = './www';
+	publicDir = './www',
+	bowerComponentsDir = './bower_components/';
 
 
 app.use(methodOverride());
@@ -23,6 +24,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(express.static(publicDir));
+app.use('/bower_components', express.static(bowerComponentsDir));
 app.use('/screenshots', express.static(config.phantom.screenshotRoot));
 
 app.use(errorHandler({
@@ -114,6 +116,7 @@ app.get('/update-baseline', function (req, res) {
 
 });
 app.listen(port, hostname);
+console.log('Open http://' + hostname + ':' + port + ' in your browser to use the viewer');
 
 //Viewer object with
 var viewer = {};

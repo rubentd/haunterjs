@@ -33,6 +33,7 @@
 		"jasmine": "~2.3.0"
 	},
 	"scripts": {
+		"start": "bower install; node viewer.js",
 		"test": "jasmine"
 	}
 }

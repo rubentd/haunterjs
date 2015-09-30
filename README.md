@@ -244,7 +244,7 @@ casperjs test demo-tests
 
 Run the snap viewer with: 
 ```
-node viewer.js
+npm start
 ```
 And then open http://localhost:[viewerPort] in your browser  
 
