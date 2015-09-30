@@ -5,7 +5,7 @@
     <title>haunterjs by rubentd</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
@@ -67,7 +67,7 @@ adding some new features:</p>
 
 <p>This example test opens github.com and searches for 'bootstrap'</p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> haunter <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>../haunter.js<span class="pl-pds">'</span></span>);
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> haunter <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>../haunter.js<span class="pl-pds">'</span></span>);
 haunter.<span class="pl-c1">start</span>(<span class="pl-s"><span class="pl-pds">'</span>search/bootstrap<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Search for bootstrap repo<span class="pl-pds">'</span></span>);
 haunter.goToUrl(<span class="pl-s"><span class="pl-pds">'</span>https://github.com/<span class="pl-pds">'</span></span>);
 haunter.snap(<span class="pl-s"><span class="pl-pds">'</span>.header<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Go to github.com<span class="pl-pds">'</span></span>);
@@ -86,7 +86,7 @@ haunter.end();</pre></div>
 
 <p>A snap is a screenshot of a given css selector and an annotation for that screenshot, describing the current action being performed. </p>
 
-<div class="highlight highlight-javascript"><pre>haunter.snap(<span class="pl-s"><span class="pl-pds">'</span>.sort-bar<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Press enter and view number of results<span class="pl-pds">'</span></span>);</pre></div>
+<div class="highlight highlight-source-js"><pre>haunter.snap(<span class="pl-s"><span class="pl-pds">'</span>.sort-bar<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Press enter and view number of results<span class="pl-pds">'</span></span>);</pre></div>
 
 <p><br></p>
 
@@ -96,7 +96,7 @@ haunter.end();</pre></div>
 <p>haunterjs allows to configure multiple viewports, to test responsive sites in a single test.<br>
 This way haunterjs will take screenshots with every screen size in each snap.</p>
 
-<div class="highlight highlight-javascript"><pre>config.defaultViewports <span class="pl-k">=</span> [
+<div class="highlight highlight-source-js"><pre>config.defaultViewports <span class="pl-k">=</span> [
     { 
         name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>small<span class="pl-pds">'</span></span>,
         width<span class="pl-k">:</span> <span class="pl-c1">320</span>, 
@@ -116,7 +116,7 @@ This way haunterjs will take screenshots with every screen size in each snap.</p
 
 <p>If you want to take a snap of a single component, like a button, and you don't care about multiple screen sizes, call the snap method with the last parameter with false value.</p>
 
-<div class="highlight highlight-javascript"><pre>haunter.snap(<span class="pl-s"><span class="pl-pds">'</span>.selector<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Annotation<span class="pl-pds">'</span></span>, <span class="pl-c1">false</span>);</pre></div>
+<div class="highlight highlight-source-js"><pre>haunter.snap(<span class="pl-s"><span class="pl-pds">'</span>.selector<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Annotation<span class="pl-pds">'</span></span>, <span class="pl-c1">false</span>);</pre></div>
 
 <p><br></p>
 
@@ -134,7 +134,7 @@ For example you can separate your tests by features or modules of your website.<
 
 <p>This <em>virtual path</em> is setup in each test:</p>
 
-<div class="highlight highlight-javascript"><pre>haunter.<span class="pl-c1">start</span>(<span class="pl-s"><span class="pl-pds">'</span>search/bootstrap<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Search for bootstrap repo<span class="pl-pds">'</span></span>);</pre></div>
+<div class="highlight highlight-source-js"><pre>haunter.<span class="pl-c1">start</span>(<span class="pl-s"><span class="pl-pds">'</span>search/bootstrap<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Search for bootstrap repo<span class="pl-pds">'</span></span>);</pre></div>
 
 <p><br></p>
 
@@ -374,4 +374,3 @@ Make sure the <em>viewerPort</em> configured in the config.js file matches the o
 
   </body>
 </html>
-
