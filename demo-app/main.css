@@ -1,8 +1,7 @@
 html {
-  overflow-x: hidden; 
+  overflow-x: hidden;
 }
 
 .btn-primary{
 	background-color: #333;
-	font-size: 24px;
 }
