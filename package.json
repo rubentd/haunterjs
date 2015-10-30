@@ -34,6 +34,6 @@
 	},
 	"scripts": {
 		"start": "bower install; node viewer.js",
-		"test": "jasmine"
+		"test": "casperjs test demo-tests"
 	}
 }
