@@ -3,5 +3,7 @@ node_js:
   - "0.12"
 
 before_script:
-   - npm install -g casperjs
+   - git clone -q git://github.com/n1k0/casperjs.git
+   - cd casperjs; git checkout -q tags/1.1-beta1; cd ../
+   - export PATH=$PATH:`pwd`/casperjs/bin
    - phantomjs --version; casperjs --version
