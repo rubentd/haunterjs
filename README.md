@@ -1,4 +1,4 @@
-![logo](http://rubentd.com/haunterjs/img/icon.png "logo") 
+![logo](http://i.imgur.com/UaSvw28.png "logo") 
 # haunterjs
 [![npm version](https://badge.fury.io/js/haunterjs.svg)](http://badge.fury.io/js/haunterjs) [![Build Status](https://travis-ci.org/rubentd/haunterjs.svg)](https://travis-ci.org/rubentd/haunterjs)
 
