@@ -1,4 +1,4 @@
-![logo](http://i.imgur.com/UaSvw28.png "logo") 
+![logo](http://rubentd.com/img/haunter-logo.png "logo") 
 # haunterjs
 [![npm version](https://badge.fury.io/js/haunterjs.svg)](http://badge.fury.io/js/haunterjs) [![Build Status](https://travis-ci.org/rubentd/haunterjs.svg)](https://travis-ci.org/rubentd/haunterjs)
 
@@ -19,12 +19,12 @@ Sometimes this changes are intentional, as you are improving the look and feel, 
 Imagine you are refactoring some component, for example a button, but you are not sure how this change is gonna impact the site. You would need to browse the whole site to make sure everything looks good.  
 With css regression tests you can automate the process, and make sure none breaks the styles across the website.
 <br>
-There are some tools like [PhantomCSS](https://github.com/huddle/phantomcss) 
-or [wraith](https://github.com/BBC-News/wraith) 
+There are some tools like [PhantomCSS](https://github.com/huddle/phantomcss)
+or [wraith](https://github.com/BBC-News/wraith)
 which allow you to write tests to compare screenshots of your website and detect changes.
-  
+
 <br>
-haunterjs was built on top of [PhantomCSS](https://github.com/huddle/phantomcss), 
+haunterjs was built on top of [PhantomCSS](https://github.com/huddle/phantomcss),
 adding some new features:
 
 1. Annotations for each screenshot
@@ -54,13 +54,13 @@ haunter.end();
 
 haunterjs is based on the concept of **snaps**.
 
-A snap is a screenshot of a given css selector and an annotation for that screenshot, describing the current action being performed. 
+A snap is a screenshot of a given css selector and an annotation for that screenshot, describing the current action being performed.
 
 ```javascript
 haunter.snap('.sort-bar', 'Press enter and view number of results');
 ```
 
-  
+
 <br>
 ## Responsive sites
 
@@ -69,19 +69,19 @@ This way haunterjs will take screenshots with every screen size in each snap.
 
 ```javascript
 config.defaultViewports = [
-	{ 
+	{
 		name: 'small',
-		width: 320, 
+		width: 320,
 		height: 480
 	},
-	{ 
+	{
 		name: 'medium',
-		width: 768, 
+		width: 768,
 		height: 480
 	},
-	{ 
+	{
 		name: 'large',
-		width: 1024, 
+		width: 1024,
 		height: 768
 	}
 ];
@@ -100,7 +100,7 @@ haunter.snap('.selector', 'Annotation', false);
 haunterjs includes a snap viewer written in nodejs and angularjs. You can use this tool as a navigation manual, browsing the snapshots of a specific user flow. You can compare them and choose the correct one, in the event of conflict.
 
 <br><br>
-![snap viewer](http://rubentd.com/haunterjs/img/viewer-index.png "snap viewer")
+![snap viewer](http://rubentd.com/img/viewer-index.png "snap viewer")
 <br><br>
 
 haunterjs allows the test to be structured in a hierarchy or folder system, to facilitate the process of browsing/running the tests.
@@ -118,13 +118,13 @@ haunter.start('search/bootstrap', 'Search for bootstrap repo');
 When a conflict it's found, the viewer asks you which one is the correct version of that component.
 
 <br><br>
-![snap viewer](http://rubentd.com/haunterjs/img/conflict.gif "snap viewer")
+![snap viewer](http://rubentd.com/img/conflict.gif "snap viewer")
 <br><br>
 
 So you can update the baseline screenshot, or fix possible visual inconsistencies.
 
 <br><br>
-![snap viewer](http://rubentd.com/haunterjs/img/choose-correct.png "snap viewer")
+![snap viewer](http://rubentd.com/img/choose-correct.png "snap viewer")
 <br><br>
 
 After solving the conflicts, you must commit the changes in your repo.
@@ -242,7 +242,7 @@ Run the demo tests with:
 casperjs test demo-tests
 ```
 
-Run the snap viewer with: 
+Run the snap viewer with:
 ```
 npm start
 ```
