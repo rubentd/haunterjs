@@ -19,7 +19,7 @@
     </section>
 
     <section class="main-content">
-      <p><img src="http://rubentd.com/haunterjs/img/icon.png" alt="logo" title="logo"> </p>
+      <p><img src="http://rubentd.com/img/haunter-logo.png" alt="logo" title="logo"> </p>
 
 <h1>
 <a id="haunterjs" class="anchor" href="#haunterjs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>haunterjs</h1>
@@ -48,12 +48,12 @@ Sometimes this changes are intentional, as you are improving the look and feel, 
 Imagine you are refactoring some component, for example a button, but you are not sure how this change is gonna impact the site. You would need to browse the whole site to make sure everything looks good.<br>
 With css regression tests you can automate the process, and make sure none breaks the styles across the website.
 <br>
-There are some tools like <a href="https://github.com/huddle/phantomcss">PhantomCSS</a> 
-or <a href="https://github.com/BBC-News/wraith">wraith</a> 
+There are some tools like <a href="https://github.com/huddle/phantomcss">PhantomCSS</a>
+or <a href="https://github.com/BBC-News/wraith">wraith</a>
 which allow you to write tests to compare screenshots of your website and detect changes.</p>
 
 <p><br>
-haunterjs was built on top of <a href="https://github.com/huddle/phantomcss">PhantomCSS</a>, 
+haunterjs was built on top of <a href="https://github.com/huddle/phantomcss">PhantomCSS</a>,
 adding some new features:</p>
 
 <ol>
@@ -84,7 +84,7 @@ adding some new features:</p>
 
 <p>haunterjs is based on the concept of <strong>snaps</strong>.</p>
 
-<p>A snap is a screenshot of a given css selector and an annotation for that screenshot, describing the current action being performed. </p>
+<p>A snap is a screenshot of a given css selector and an annotation for that screenshot, describing the current action being performed.</p>
 
 <div class="highlight highlight-source-js"><pre><span class="pl-smi">haunter</span>.<span class="pl-en">snap</span>(<span class="pl-s"><span class="pl-pds">'</span>.sort-bar<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>Press enter and view number of results<span class="pl-pds">'</span></span>);</pre></div>
 
@@ -97,19 +97,19 @@ adding some new features:</p>
 This way haunterjs will take screenshots with every screen size in each snap.</p>
 
 <div class="highlight highlight-source-js"><pre><span class="pl-smi">config</span>.<span class="pl-smi">defaultViewports</span> <span class="pl-k">=</span> [
-    { 
+    {
         name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>small<span class="pl-pds">'</span></span>,
-        width<span class="pl-k">:</span> <span class="pl-c1">320</span>, 
+        width<span class="pl-k">:</span> <span class="pl-c1">320</span>,
         height<span class="pl-k">:</span> <span class="pl-c1">480</span>
     },
-    { 
+    {
         name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>medium<span class="pl-pds">'</span></span>,
-        width<span class="pl-k">:</span> <span class="pl-c1">768</span>, 
+        width<span class="pl-k">:</span> <span class="pl-c1">768</span>,
         height<span class="pl-k">:</span> <span class="pl-c1">480</span>
     },
-    { 
+    {
         name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>large<span class="pl-pds">'</span></span>,
-        width<span class="pl-k">:</span> <span class="pl-c1">1024</span>, 
+        width<span class="pl-k">:</span> <span class="pl-c1">1024</span>,
         height<span class="pl-k">:</span> <span class="pl-c1">768</span>
     }
 ];</pre></div>
@@ -126,7 +126,7 @@ This way haunterjs will take screenshots with every screen size in each snap.</p
 <p>haunterjs includes a snap viewer written in nodejs and angularjs. You can use this tool as a navigation manual, browsing the snapshots of a specific user flow. You can compare them and choose the correct one, in the event of conflict.</p>
 
 <p><br><br>
-<img src="http://rubentd.com/haunterjs/img/viewer-index.png" alt="snap viewer" title="snap viewer">
+<img src="http://rubentd.com/img/viewer-index.png" alt="snap viewer" title="snap viewer">
 <br><br></p>
 
 <p>haunterjs allows the test to be structured in a hierarchy or folder system, to facilitate the process of browsing/running the tests.
@@ -144,13 +144,13 @@ For example you can separate your tests by features or modules of your website.<
 <p>When a conflict it's found, the viewer asks you which one is the correct version of that component.</p>
 
 <p><br><br>
-<img src="http://rubentd.com/haunterjs/img/conflict.gif" alt="snap viewer" title="snap viewer">
+<img src="http://rubentd.com/img/conflict.gif" alt="snap viewer" title="snap viewer">
 <br><br></p>
 
 <p>So you can update the baseline screenshot, or fix possible visual inconsistencies.</p>
 
 <p><br><br>
-<img src="http://rubentd.com/haunterjs/img/choose-correct.png" alt="snap viewer" title="snap viewer">
+<img src="http://rubentd.com/img/choose-correct.png" alt="snap viewer" title="snap viewer">
 <br><br></p>
 
 <p>After solving the conflicts, you must commit the changes in your repo.</p>
@@ -325,7 +325,7 @@ Make sure the <em>viewerPort</em> configured in the config.js file matches the o
 <pre><code>casperjs test demo-tests
 </code></pre>
 
-<p>Run the snap viewer with: </p>
+<p>Run the snap viewer with:</p>
 
 <pre><code>npm start
 </code></pre>
